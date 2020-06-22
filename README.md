@@ -38,6 +38,16 @@ Review of things:
 - When multiplying matrices, make sure that element-wise multiplication is possible. Number of columns in first matrix needs to equal the number of rows in the second matrix. 
 - A np.dot(a, b) has shape (number of rows of a, number of columns of b).
 
+## Shallow Neural Networks
+
+### Overview
+Superscript square brackets refer to individual layers whereas superscript round brackets refer to the specific training example. For logistic regression, you have a z followed by an a calculation; for the neural networks, you have multiple z calculations followed by a calculations. The inputs to the neural network are called the input layer. Another layer after that is called the hidden layer; the single node layer at the end is the output layer. Hidden and output layers have parameters associated with them. For logistic regression, you compute some z and then you compute a sigmoid function. The neural network does this a bunch of times. The superscript refers to the layer and the i refers to the node in the layer. We can vectorize the w as a matrix and then add the b vector to represent z as a matrix. 
+
+Activation functions, of which sigmoid functions are a part of, are nonlinear functions that work well (tanh, for example) for gradient descent. Sigmoids are usually used in binary classfication models. Activation models can be different for different layers. Sometimes, when z is large or small, the slope goes close to zero and it slows down gradient descent. ReLU (rectified linear unit) is popular because it bypasses this problem. There's a leaky ReLU function that prevents the slope being zero; it's usually good to just use the ReLU. Non-linear activation functions are important because otherwise the y-hat is just a linear function of the input. No matter how many layers you do, it'd still be a linear function. 
+
+Going over the derivatives of activation functions. For sigmoid activation functions, we find that the derviative is just a*(1-a). For the tanh activation function, the dervaitive is the following: (1-tanh(z))^2. For ReLU, the slope is 0 when z is less than 0 and 1 when z is greater than zero. To train parameters for classification, you need to perform gradient descent. Equations for forward propagation are four-fold for the neural network. Backpropagation step requires you to take derivatives. The dz for derivatives is A - Y; dW is (1/m)(dZ)(A); dB = 1/m * np.sum(dz, axis=1,keepDims=True).
+
+When training neural networks, it's important to initialize things randomly. You can't set things to zero because then every layer your hidden layer is computing the same function (and because the hidden units have same influence on output layer) and are symmetric. You want hidden units to compute different functions. Set w1 to some np.ranodom.randn * 0.01; you can initialize b's to be zero. If weights are too large, when computing activation values, you're screwing with the gradient descent. 
 
 
 
