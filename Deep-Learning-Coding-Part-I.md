@@ -1,5 +1,5 @@
 # Introduction
-This will contain concepts and coding tools used for the first part of the tutorial. 
+This will contain concepts and coding tools used for the first week of the tutorial. 
 
 ## Python Basics with Numpy 
 Numpy is used by a large group of people and there are important functions for use with Python. Because in deep learning we mainly use matrices and vectors, we use the numpy library more. Now, implementing the function sigmoid_grad() to compute the gradient of the sigmoid function with respect to its input x. The formula is: $$sigmoid\_derivative(x) = \sigma'(x) = \sigma(x) (1 - \sigma(x))\tag{2}$$

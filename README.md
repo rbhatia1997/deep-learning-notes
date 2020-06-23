@@ -51,3 +51,5 @@ When training neural networks, it's important to initialize things randomly. You
 
 
 
+
+
