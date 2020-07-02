@@ -49,6 +49,18 @@ Going over the derivatives of activation functions. For sigmoid activation funct
 
 When training neural networks, it's important to initialize things randomly. You can't set things to zero because then every layer your hidden layer is computing the same function (and because the hidden units have same influence on output layer) and are symmetric. You want hidden units to compute different functions. Set w1 to some np.ranodom.randn * 0.01; you can initialize b's to be zero. If weights are too large, when computing activation values, you're screwing with the gradient descent. 
 
+## Deep Neural Networks
+
+### Overview
+Deep neural network involve the notation: number of layers is L; lowercase l is the number of units in a certain unit. When you're given just one activation input, x, you compute the activation, which are dependent on previous activation inputs. General rule is that z[l] = W[l] * a[l-1] + b[l]. The activations for that layers are the activation for those functions times z: a[l] = g[l] * z[l]. Demensions of W[l] has to just be n[l] by n[l-1]. For the bias term, b[l], we find that b[l]'s dimensions are n[l] by 1. In addition, dw[l] = n[l] by n[l-1] and db[l] = n[l] by 1. Specifically, having a lot of hidden layers in deep learning, is helpful. Going from low-level, edge features to more high-level, broader features is what deep learning is about. 
+
+For layer l, you have some input a[l-1] that spits out some a[l] using W[l] and b[l]. This outputs a cache that contains z[l]. You use this z for backwards propagation, you're seeing how da[l] impacts da[l-1]. You need W[l], b[l], and z[l] and then get the following: dW[l] and db[l]. You take the input features to get the first layer's activations (caching z[l]). You keep feeding things to the next layers to eventually get the y_hat. For the backpropagation step, you feed da[l] and so on until you go backwards to get dW and Db derivative terms. W and B get updated accordingly. A good thing to know is that for backwards propagation for layer l, for dz[l] = da[l] * g'[l](z[l]) and dW[l] = dz[l] * a[l-1]; db[l] = dz[l] and da[l-1] = W[l]^T * dz[l]. 
+
+Organize hyperparameters and parameters. You need to tell your algorithm the learning rates (alpha), the number of iterations of gradient descent, number of hidden layers, the number of hidden units, choice of activation functions, etc. These are called hyperparameters -> they're parameters that control W and B. See below for the list of equations utilized for the fourth week:
+
+![Math Equations Part 3](photos/photo3.png)
+
+
 
 
 
