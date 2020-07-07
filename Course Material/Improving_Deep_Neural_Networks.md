@@ -30,7 +30,9 @@ You can augment your training data to increase the dataset (flipping the dataset
 
 You want the train/test sets to be normalized in the same way. If you use unnormalized features, the range of parameters will be very different; the impact of this is that the learning rates change and it's harder to do gradient descent on a non symmetric graph. Sometimes the derivatives (gradient) can get very big or very small and makes training difficult. The weights W, if they're a little bigger than the identity matrix, can cause the activations to explode; if W is a little less than the identity, the activations will decrease exponentially. These are for very deep neural networks. 
 
-You can set a weight matrix to be np.random.randn(shape) * sqrt(1/n[l-1)]). This is caused Xavier's initialization. You can use ReLU which is the same thing except it becomes 2/n[l-1]. Gradient checking can check if you're doing back propagation is correctly. 
+You can set a weight matrix to be np.random.randn(shape) * sqrt(1/n[l-1)]). This is caused Xavier's initialization. You can use ReLU which is the same thing except it becomes 2/n[l-1]. Gradient checking can check if you're doing back propagation is correctly. Using a two-sided difference in derivative computation is more effective and accurate. You'll have some parameters in your parameters; you need to reshape your parameters into a big vector theta. Take the derivative parameters are reshape them into a big vector dtheta. Now, J is a function of the giant parameter vector theta. For each component of theta, take a two sided difference; you end up with a dtheta_approx. You find the eucledian distance between the dtheta_approx and dtheta. 
+
+Use gradient checking only to debug things. If algorithm fails a grad check, look at the components to try to identify the bug. Grad check doesn't work with dropout; but don't forget regularization if that's what you're using. 
 
 ## Week 2 
 
