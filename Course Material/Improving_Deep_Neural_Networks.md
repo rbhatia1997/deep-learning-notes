@@ -36,3 +36,29 @@ Use gradient checking only to debug things. If algorithm fails a grad check, loo
 
 ## Week 2 
 
+### Optimization Algorithms
+
+Having fast optimization algorithms can speed up the efficiency of any team that's doing deep learning. You can use vectorization to process your entire training set; if you just let gradient descent make progress before processing everything. You can split the training set into mini batches. Round brackets refer to the index of a training set; the square brackets is a different layer; curly brackets refer to the mini batches. Batch gradient descent versus mini batch gradient descent. You run a for loop where you implement the steps of gradient descent on a smaller number of elements (epoch is a single pass of a training set). 
+
+Choosing mini batch size is important and is between 1 and the size of the amount of data. Batch gradient descent takes too long; stochaistic gradient descent is inefficient where you lose the speed from vectorization. For small training sets, just use batch gradient descent (less than 2000 examples). Your mini batch size being a product of two is useful; make sure that your X[t] and Y[t] fits in the CPU/GPU memory. 
+
+We can get something even better than these gradient descent algorithms. Exponentially weighted averages are useful. V[t] = B(V[t-1] + (1-B)*(theta(t))). This computes the average of 1/(1-B) days' of data. You can use exponentially weighted averages to understand the data better and account for change. A bigger beta means that it's less susceptible to outlier change as it's demphasizing the impact of recent additions. Doing this in practice is computationally efficient because you're just taking the V-value and overwriting it in memory. 
+
+Bias correction makes the computation of this method more accurate. Because the initial samples will be predicted as lower due to the V0 term being zero, we notice that a better method of implementation is V[t]/(1 - Beta^t). The initial values of vt will be very low which need to be compensated. Make vt=vt1−βt. In essence, it's for when you really care about getting a better estimate early on. 
+
+Gradient descent with momentum works faster than the standard gradient descent algorithm. You compute an exponentially weighted average of the gradients, and then use that gradient instead to update the weights. We compute what Vdw and Vdb are based on the formula for the weighted average. Allows algorithm to mainly ignore changes in the vertical direction, but push towards the direction of the minimum during gradient descent. 
+
+![Math Equations Part 9](photos/photo9.png)
+
+Another algorithm can speed up gradient descent, which is RMSprop or root mean square prop. You want to slow learning in the b direction and speed up learning in the w direction. Basically the same as above but you're dividing by a square root term to dampen the oscillations more. One nice thing about this is you can increase the learning rate then. 
+
+The Adam optimization algorithm involves implementing RMSprop and momentum and putting them together. We tune the hyperparameter alpha, we keep a hyperparameter of B1 and B2 (0.9 and 0.999). For epsilon, we use 10^-8. Adam stands for adaptive moment estimation where B1 is the mean of the derivations and B2 is the exponetially weighted averages of the squares. 
+
+Another thing to speed up the algorithm is slowing down the learning rate over time. This is learning rate decay. As your alpha gets smaller, your steps would oscillate around a tighter region as it approaches the minimum. Set the rate to 1/(1+parameter*epoch-number). Some people also set alpha to some exponential or some square-root constant. Some people do manual decay and manually decrease alpha. 
+
+In high dimesional spaces, you're more likely to run into a saddle point than local optimum. This is where the derivative is zero. If local optimum aren't a problem, then plateaus are a problem (where zero is the derivative for a while). It takes a while to get out of the plateau. Momentum, RMSProp, and ADAM are useful to combat this.
+
+
+
+
+

@@ -22,7 +22,7 @@ Now, you need to implement backwards propagation with dropout. You had previousl
 
 ## Gradient Checking 
 
-You can use code for computing the cost to verify the code for computing dj/dtheta, which is what is computed during back propagation. The following is true for 1D examples and then for N-dimensional examples. 
+You can use code for computing the cost to verify the code for computing dj/dtheta, which is what is computed during back propagation. The following is true for 1D examples and then for N-dimensional examples. Gradient checking verifies closeness between the gradients from backpropagation and the numerical approximation of the gradient (computed using forward propagation). Gradient checking is slow, so we don't run it in every iteration of training. You would usually run it only to make sure your code is correct, then turn it off and use backprop for the actual learning process.
 
 ![Math Equations Part 7](photos/photo7.png)
 
