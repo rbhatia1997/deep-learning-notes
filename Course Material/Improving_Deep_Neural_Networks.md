@@ -58,6 +58,45 @@ Another thing to speed up the algorithm is slowing down the learning rate over t
 
 In high dimesional spaces, you're more likely to run into a saddle point than local optimum. This is where the derivative is zero. If local optimum aren't a problem, then plateaus are a problem (where zero is the derivative for a while). It takes a while to get out of the plateau. Momentum, RMSProp, and ADAM are useful to combat this.
 
+## Week 3 
+
+### Hyperparameter Tuning
+
+There are a lot of hyperparameters. Some parameters are most important than others. Alpha is very important; momentum term is important; mini-batch and hidden units are important. Layers/learning rate decay are also good considerations. Choose points at random and try out the hyperparameters on the randomly chosen points. Using a coarse to fine scheme; you might zoom into to a smaller region and sample within that region randomly. 
+
+Search for hyperparameters on a log scale. You sample uniformly on this log scale; computing hyperparameters for exponentially weighted averages is also unique. You should sample values of 1-beta; you sample values of beta for 10^-1 to 10^-3. When beta is close to 1, sensitivity of the results change. Causes you to sample more densely. 
+
+Different machine learnings applications may not work in different communities. Retest your hyperparameters. Babysitting a model is one method where you constantly change the model as it trains over many days; this is what happens when you don't have much computational power. You can also train many models in parallel. 
+
+### Batch Normalization
+
+Makes hyperparameter search much easier. Will let you train your neural networks much easier. Normalizing input features can make the learning process much faster. Can you normalize activation layers/hidden layers to train w3/b3 faster? Batch normalization involves normalizing z2. Given some intermediate values in the neural net, compute the mean and then you compute the variance. You normalize the z[i]'s. We introduce gamma and Beta (learnable parameters) that we use in later computations in the neural network. Normalizing input features can speed things up; batch normalization can normalize the mean/variance of some of the hidden unit values based on certain parameters. 
+
+Usually batch norm is applied on mini-batches. You just compute variance on the minibatch. You iterate on the number of minibatches; you do forward prop (use batch norm to replace z[l] with z tilda [l]). You use back propgation to get dW, DB, etc. and update the parameters. You can then use gradient descent with momentum/RMSProp/etc. 
+
+Makes weights more robust to changes deeper in the network rather than initially. Covariate shift is retraining the algorithm if the x changes; need to retrain becomes worth if the ground truth function shifts. Batch norm ensures that normalization occurs; limits the amount which updating amounts in early layers can impact the later layers. Batch norm means the early layers doesn't dictate as much; layers are more independent. Each mini batch is scaled by the mean/variance computed on that mini batch; adds noise to values within the minibatch. Slight regularization effect. 
+
+During test time, you may not have the minibatch data. You come up with a seperate mu and sigma squared by coming up with an exponentially weighted average. 
+
+### Multi-class Classification
+
+What if we have many classes? What if you want to recognize many other classes? You want to know the proability of being in a certain class. Softmax layers allows you to do this. You compute the linear part; now you compute the softmax activation function. You do e^z[l]; the output is the vector t normalized which gives you percentages for multiple classes. This process is called the softmax activation function. 
+
+Training a softmax classifier. Name comes from opposite of hardmax, which looks at the element of z, which makes the biggest vector 1 and everything else zero - softmax is a softer version of this. Softmax reduces to linear regression when there are only 2 classes. 
+
+### Introduction to Programming Frameworks
+
+You're going to use software/deep learning frameworks. It's more efficient to do things using deep frameworks. Ease of programming, running speed, and open source code are how you determine whether a deep learning framework is good or not. 
+
+This week's exercise will take some time. You can use TensorFlow to find values to minimize the cost function. You import numpy and import tensorflow as tf. You use tf.Variable to define variables. You can train using a function called ```tf.train.GradientDescentOptimizer```. You initialize variables and then you run a session. You can get training data in a TensorFlow program by doing tf.placeholder(tf.float32, [3,1]). You provide the values for this later in the training step where you write feed_dict={x:coefficients}. The heart of a TensorFlow program is to compute a cost and then figure out how to minimize that cost. 
+
+
+
+
+
+
+
+
 
 
 
