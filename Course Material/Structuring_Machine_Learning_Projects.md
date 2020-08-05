@@ -32,4 +32,28 @@ Avoidable bias and variance are fundamental assumptions of supervised learning. 
 
 ### Carrying Out Error Analysis 
 
+The ceiling of the problem is how much you can reasonably expect something to improve if a change is made. Should I make my classifier work better for misclassifying? Depends. Take 100 mislabeled examples and count how many out of those 100 are misclassified and see if that'll make a huge difference in the end.  YOu can also evaluate multiple ideas in parallel using this method. You create a table, with the images on the left, and the columns correspond to the problem or miscategorized label. Then mark the percentage of images have checkmarks -> how many incorrect mislabeling is causing problems. 
+
+Sometimes you can have data that's incorrectly labeled. Human labeling can actually be incorrect. DL algorithms are robust to random errors in the training set. However, systematic errors are another issue. Counting incorrectly labeled labels and seeing how much of a problem it is is a good idea. Look at the overall dev set area, errors due to incorrect labels, and errors due to other causes. Some guidelines are applying the process of correction to both dev and test sets to keep continuity. Also consider examining examples your algorithm got right as well. 
+
+Build the first system quickly and then iterate. Set up a dev/test set metric and build the initial system quickly. You can use bias/variance analysis to prioritize next steps. 
+
+### Mismatched Training and Dev/Test Set
+
+More teams are training on data that are different with training/testing on different distributions. One thing you can do is combine the datasets and randomly shuffle them into a train/dev/test set. The advantage is the same distribution but the disadvantage is that a lot of data come from a place where you don't care for. Dev set is where you're aiming the target. The other, recommended option, is having the training set have half mobile app and web data; the test/dev being all from the mobile application. 
+
+Ways you analyze bias/variance changes when you have mismatched data distributions. You look at training and dev error usually. But how much variance is due to the algorithm versus due to mismatched data is difficult to tease out. Defining a new piece of data called training-dev set (same distribution as training set but not used for training). This can help you tease out if variance is the issue. Data mismatch when the training and train-dev are close but the error with dev and training are high. 
+
+If you have a mismatch problem, there aren't many systematic solutions. Carry out manual error anlysis to try to understand difference between training and dev/test sets. Make the training data more similar or collect data more similar to the dev/test sets. There's also artificial data synthesis that can be utilized. There's a risk that overfitting could occur though if you don't do this process properly. 
+
+### Learning from Multiple Tasks 
+
+You can take knowledge from one network and apply it for other tasks (transfer learning). You swap in a new dataset, initialize the last layer's weights randomly, and then retrain. These things are referring to pretraining and fine-tuning. This helps with learning faster or with less data. You can also create new layers on top of a new output, that may be pretty useful. This is useful when you don't have much data. This is a good system to use when you have a ton of data for the initial machine learning model. 
+
+Multi-task learning is when you can have simultaneous tasks with one neural network doing several things simultaneously. One image can have multiple labels. The benefit is that you can train one neural network to basically accomplish the work of four neural networks. Multi-task learning makes sense when training on a set of tasks that could benefit from sharing lower level features and when the amount of data for each task is quite similar. Finally, when you can train a big enough neural newtork to do well on all the tasks. 
+
+### End to End Deep Learning
+
+Typically, you would extract features and then combine the individual parts to make an output. With end-to-end deep learning, you can train a neural network to do a lot of the intermediate tasks. You might need a ton of data before end to end deep learning works really well. Breaking problems to two steps, cropping the image and feeding it to a neural network. It's also a data issue to solve subproblems. End-to-end learning lets the learning speak for itself -> you can force machines to remove pre-conceived bias in the algorithm. Less design work is necessary. However, the costs are large amounts of data. Disadvantage is removing potentially useful hand-designed features. 
+
 
