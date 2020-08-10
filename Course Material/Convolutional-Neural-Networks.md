@@ -1,5 +1,31 @@
 # Introduction
 
-This Repository contains the notes that I have been writing for the Deep Learning Specialization. It'll cover my assignments and other notes so I can reference them after the course's completion. This is meant for my personal use, but I've made it public in case it's helpful to others. This is the second course. 
+This Repository contains the notes that I have been writing for the Deep Learning Specialization. It'll cover my assignments and other notes so I can reference them after the course's completion. This is meant for my personal use, but I've made it public in case it's helpful to others. This is the fourth course.
 
 ## Week 1 
+
+### Edge Detection 
+
+Computer vision is an area of deep learning dedicated to detecting objects and is used in various applications. It's a highly innovative field. Computer vision has problems like image classification and object detection. Neural style transfer is transferring style to another image. Computer vision inputs can get really big; larger images make parameters pretty infeasible. 
+
+Detecting vertical and horizontal edges can be a first step; you can construct a 3x3 matrix or filter or kernel. You take a 6x6 image and convolve it with that matrix; the output is a 4x4 matrix. You take the element wise product and addition of the 3x3 matrix (shifting) on the 6x6 matrix. This ends up being a vertical edge dectector; conv-forward in Python and tf.nn.conv2d is in TensorFlow. The middle of the image shows that there's a light to dark transition; if you flip the order from light to dark to dark to light, you notice the magnitude of the filtered output stays the same but has a negative middle ground. A horizontal filter is where it's bright on the top but dark on the bottom. Sobel filter puts more weight in the central row/pixel (more robust); sometimes, other filters are used (Scharr filter). You can learn the numbers (via parameters) to make an edge dectector. Backprop can actually learn the filter rather than using a hand-coded filter. 
+
+### Types of Convolution
+
+In convolution, you get a (n-f + 1) x (n-f +1) matrix. Pixels on the corners of the image in convolution aren't counted as much; throwing away a lot of information. Before convoluting, you can pad the image with a border of 1px (8x8) matrix and you get a (6x6) output. You can pad with two pixels if you want. In terms of how much to pad, valid and same convolutions; valid convolutions mean no padding. The other common choice is the same (pad so the output size is the same as the input size) -> (n + 2p - f + 1) x (n + 2p - f + 1) dimension. This implies that p is equal to (f - 1 / 2). Common for the filters to be odd because if you had it even, you'd have asymmetric padding; odd filters has a central position. 
+
+Strided convolutions involve strides. Element-wise products as usual but you pop the box by two steps instead of just one step. The input/output are governed by the following: (n + 2p - f / stride) + 1 x (n + 2p - f / stride) + 1. You take the floor of the above in cases it doesn't work. Math textbooks usually has you flipping the filter matrix vertically and horizontally. This flipped matrix is what you then convolve. We don't really convolve, we are doing cross-correlation to be really specific. 
+
+RGB images have height, width, and channels (channels match channels in the filter). Usually it's 3 for the channel because RGB. You multiply the filter by the various numbers over the various channels similar to that in the 2D case. If you want to get edges in the red channel, you can have the green/blue channels be all zeros. You can have a filter in all three channels to detect edges in all three channels. Convolving a volume gives a 4x4, 2D output. What about multiple filters at the same time? You can stack two filters together and output a volume. 
+
+### Building Neural Network
+
+You add a bias and apply a non-linearity to the filters. Then you stack the filters. This is one layer of the neural network. The filter multiplied by the image is similar to doing w*a; adding the real number is similar to getting to z. Activation is like adding the non-linearity term. If you had 10 filters, you'd only have 280 parameters. You can apply things to large images. If layer 1 is a convolutional layer, f[l], layer size, p[l] is padding, s[l] is the stride. The input to the layer is some nxnxn_c (channels); the output is just n x n x nc -> (n + 2p - f / s) + 1. a[l] will be nhl x nwl x ncl; each filter is just fl x fl x nc(l-1). A[l] is m x nhl x hwl x ncl. 
+
+Let's say we're doing an image recognition task. Let's say you run your image through two filters then flatten the output and then give it to a softmax or logistic regression filter. Height and width gradually trend downwards. The number of channels generally increases. Usually there's three types of layers: convolution layer, pooling layer, and a fully conected layer. 
+
+Pooling Layers: Max pooling. Split your 4x4 matrix into 2x2 sections and then take the max of each 2x2 region. Technically this is taking a stride of 2 and the f is 2. What this is doing is identifying specific features -> preserves the output. If this feature is detected anywhere, keep the number high. A lot of people use it; it has no parameters to learn. It's a fixed computation. There's also average pooling which takes the average of each filter size, but it's less commonly utilized. F is the filter size. 
+
+Fully connected layer is like a single neural network layer. You connect each unit of the output to each unit of the fully connected layer. You have a standard weight matrix of a certain unit length connected to the output. Then you can attach a softmax function to output multiple classes. See what hyperparameters have worked in literature. A common pattern is having conv + pool layers + conv + pool layers + fc + fc layers + softmax. You go from an activation size of 3k to something much smaller. Max pooling layers have no paramters; activation size goes down gradually. 
+
+Conv nets have small parameters because of parameter sharing (feature detector that's useful in one part of the image is probably useful in another part) and sparcity of connections (in each layer, each output value depends on a small number of input). Translation invariance - shifting images a few pixels - is well covered (due to the fact that the model is pretty robust). 
